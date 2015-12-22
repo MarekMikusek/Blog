@@ -27,32 +27,38 @@ class AlbumTable
 
     public function getAlbum($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         $rowset = $this->tableGateway->select(['id' => $id]);
         $row = $rowset->current();
-        if (!$row){
+        if (!$row) {
             throw new \Exception("Could not find row $id");
         }
         return $row;
     }
 
-    public function saveAlbum (Album $album)
+    public function saveAlbum(Album $album)
     {
-        $data = array (
-            'artist' => $album ->artist,
-            'title' => $album -> title,
+        $data = array(
+            'artist' => $album->artist,
+            'title' => $album->title,
         );
-        $id = (int) $album->id;
-        if ($id == 0){
-            $this ->tableGateway->insert($data);
-        }
-        else {
-            throw new \Exception("Album id does not exist");
+        $id = (int)$album->id;
+        if ($id == 0) {
+            $this->tableGateway->insert($data);
+        } else {
+            if ($this->getAlbum($id)) {
+                $this->tableGateway->update($data, [
+                    'id' => $id
+                ]);
+            } else {
+                throw new \Exception("Album id does not exist");
+            }
         }
     }
 
-    public function deleteAlbum($id)
+    public
+    function deleteAlbum($id)
     {
-        $this->tableGateway->delete(['id'=> (int) $id]);
+        $this->tableGateway->delete(['id' => (int)$id]);
     }
 }

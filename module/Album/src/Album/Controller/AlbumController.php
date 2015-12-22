@@ -11,6 +11,7 @@ namespace Album\Controller;
 use Album\Form\AlbumForm;
 use Album\Model\Album;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
 
 class AlbumController extends AbstractActionController
@@ -37,7 +38,11 @@ class AlbumController extends AbstractActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $album->exchangeArray($form->getData());
+                //$album->exchangeArray($form->getData());
+
+                $hydrator = new ClassMethods();
+                $album = $hydrator->hydrate($form->getData(), new Album());
+
                 $this->getAlbumTable()->saveAlbum($album);
 
                 return $this->redirect()->toRoute('album');
@@ -64,15 +69,17 @@ class AlbumController extends AbstractActionController
 
         $form = new AlbumForm();
         $form->bind($album);
-        $form->get('submit')->setAttribute('value', 'Edit');
+        $form->get('submit')->setAttribute('value', 'Save');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
+
             $form->setInputFilter($album->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $this->getAlbumTable()->saveAlbum();
+                $this->getAlbumTable()->saveAlbum($album);
+                return $this->redirect()->toRoute('album');
             }
         }
         return [
@@ -103,6 +110,9 @@ class AlbumController extends AbstractActionController
         ];
     }
 
+    /**
+     * @return \Album\Model\AlbumTable
+     */
     public function getAlbumTable()
     {
         if (!$this->albumTable) {
