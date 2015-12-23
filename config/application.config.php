@@ -10,6 +10,8 @@ return array(
     'modules' => array(
         'Application',
         'Album',
+        'DoctrineModule',
+        'DoctrineORMModule',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

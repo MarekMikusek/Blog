@@ -2,16 +2,33 @@
 namespace Album\Model;
 
 
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Album
+ * @package Album\Model
+ * @ORM\Entity
+ */
 
-class Album implements InputFilterAwareInterface
+class Album
 {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
     public $id;
+    /**
+     * @ORM\Column()
+     */
     public $artist;
+    /**
+     * @ORM\Column
+     */
     public $title;
+    /**
+     *
+     */
     protected $inputFilter;
 
     public function exchangeArray($data)
@@ -19,64 +36,6 @@ class Album implements InputFilterAwareInterface
         $this->id = (!empty($data['id']) ? $data['id'] : null);
         $this->artist = (!empty($data['artist']) ? $data['artist'] : null);
         $this->title = (!empty($data['title']) ? $data['title'] : null);
-    }
-
-    public function setInputFilter(InputFilterInterface $inputFilter)
-    {
-        throw new \Exception("Not used");
-    }
-
-
-    public function getInputFilter()
-    {
-        if (!$this->inputFilter) {
-            $inputFilter = new InputFilter();
-
-            $inputFilter->add([
-                'name' => 'artist',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-                    [
-                        'name' => 'StringLength',
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 100,
-                        ]
-                    ]
-                ]
-            ]);
-            $inputFilter->add([
-                'name' => 'title',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-                    [
-                        'name' => 'StringLength',
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 100,
-                        ],
-                    ],
-                ],
-            ]);
-
-            $this->inputFilter = $inputFilter;
-        }
-        return $this->inputFilter;
-    }
-
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
     }
 
     /**

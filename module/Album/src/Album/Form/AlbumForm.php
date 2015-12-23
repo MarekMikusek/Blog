@@ -10,6 +10,7 @@ namespace Album\Form;
 
 
 use Zend\Form\Form;
+use Zend\InputFilter\InputFilter;
 
 class AlbumForm extends Form
 {
@@ -43,5 +44,46 @@ class AlbumForm extends Form
                 'id' => 'submitbutton',
             ],
         ]);
+
+        $inputFilter = new InputFilter();
+
+        $inputFilter->add([
+            'name' => 'artist',
+            'required' => true,
+            'filters' => [
+                ['name' => 'StripTags'],
+                ['name' => 'StringTrim'],
+            ],
+            'validators' => [
+                [
+                    'name' => 'StringLength',
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 100,
+                    ]
+                ]
+            ]
+        ]);
+        $inputFilter->add([
+            'name' => 'title',
+            'required' => true,
+            'filters' => [
+                ['name' => 'StripTags'],
+                ['name' => 'StringTrim'],
+            ],
+            'validators' => [
+                [
+                    'name' => 'StringLength',
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 100,
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->setInputFilter($inputFilter);
     }
 }
