@@ -1,40 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marek
- * Date: 2015-12-22
- * Time: 10:45
- */
 
-namespace Album\Form;
+namespace Category\Form;
 
-
-use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 
-class AlbumForm extends Form
+class CategoryForm extends \Zend\Form\Form
 {
+
     public function __construct($name = null)
     {
-        parent::__construct('album');
+        parent::__construct('category');
 
         $this->add([
             'name' => 'id',
             'type' => 'hidden'
         ]);
         $this->add([
-            'name' => 'title',
+            'name' => 'categoryName',
             'type' => 'text',
             'options' => [
-                'label' => 'Title',
-            ],
+                'label' => 'CategoryName'
+            ]
         ]);
         $this->add([
-            'name' => 'artist',
-            'type' => 'Text',
+            'name' => 'content',
+            'type' => 'text',
             'options' => [
-                'label' => 'Artist',
-            ],
+                'label' => 'Content'
+            ]
         ]);
         $this->add([
             'name' => 'submit',
@@ -44,11 +37,9 @@ class AlbumForm extends Form
                 'id' => 'submitbutton',
             ],
         ]);
-
         $inputFilter = new InputFilter();
-
         $inputFilter->add([
-            'name' => 'artist',
+            'name' => 'category',
             'required' => true,
             'filters' => [
                 ['name' => 'StripTags'],
@@ -65,28 +56,8 @@ class AlbumForm extends Form
                 ]
             ]
         ]);
-        $inputFilter->add([
-            'name' => 'title',
-            'required' => true,
-            'filters' => [
-                ['name' => 'StripTags'],
-                ['name' => 'StringTrim'],
-            ],
-            'validators' => [
-                [
-                    'name' => 'StringLength',
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 1,
-                        'max' => 100,
-                    ],
-                ],
-            ],
-        ]);
-        $inputFilter-add([
-            'name'=>''
-        ]);
-
         $this->setInputFilter($inputFilter);
     }
 }
+
+;

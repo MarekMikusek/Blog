@@ -30,13 +30,13 @@ class Album
      *
      */
     protected $inputFilter;
-
-    public function exchangeArray($data)
-    {
-        $this->id = (!empty($data['id']) ? $data['id'] : null);
-        $this->artist = (!empty($data['artist']) ? $data['artist'] : null);
-        $this->title = (!empty($data['title']) ? $data['title'] : null);
-    }
+//
+//    public function exchangeArray($data)
+//    {
+//        $this->id = (!empty($data['id']) ? $data['id'] : null);
+//        $this->artist = (!empty($data['artist']) ? $data['artist'] : null);
+//        $this->title = (!empty($data['title']) ? $data['title'] : null);
+//    }
 
     /**
      * @return mixed
