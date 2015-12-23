@@ -8,23 +8,48 @@
 
 namespace Blog\Controller;
 
-use Doctrine\ORM\Mapping as ORM;
+use Blog\Form\CategoryForm;
+use Blog\Model\Category;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 
 class CategoryController extends AbstractActionController
 {
 
+    public function createForm()
+    {
+        $form = new CategoryForm();
+        $form->setHydrator(new ClassMethods())
+            ->setObject(new Category());
+        return $form;
+    }
 
+    public function addAction()
+    {
+        $form = $this->createForm();
+        $form->get('submit')->setValue('Add');
+        $request = $this->getRequest();
 
-    public function addAction(){
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $this->getEntityManager()->persist($form->getData());
+                $this->getEntityManager()->flush();
+                return $this->redirect()->toRoute('blog');
+            }
+        }
+
+        return ['form' => $form];
+    }
+
+    public function editAction()
+    {
 
     }
 
-    public function editAction(){
-
-    }
-
-    public function deleteAction(){
+    public function deleteAction()
+    {
 
     }
 

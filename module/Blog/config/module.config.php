@@ -4,6 +4,7 @@ return array(
     'controllers' => [
         'invokables' => [
             'Blog\Controller\Blog' => 'Blog\Controller\BlogController',
+            'Blog\Controller\Category' => 'Blog\Controller\CategoryController',
         ],
     ],
     'router' => [

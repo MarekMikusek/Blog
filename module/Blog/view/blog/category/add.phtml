@@ -1,0 +1,12 @@
+<?php
+
+$title = 'Add new album';
+$this->headTitle($title);
+?>
+    <h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+/** @var \Blog\Form\CategoryForm $form */
+//$form->setAttribute('action', $this->url('category', ['action' => 'add']));
+//$form->prepare();
+
+echo $this->form($form);

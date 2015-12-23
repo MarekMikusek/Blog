@@ -1,10 +1,11 @@
 <?php
 
-namespace Category\Form;
+namespace Blog\Form;
 
+use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 
-class CategoryForm extends \Zend\Form\Form
+class CategoryForm extends Form
 {
 
     public function __construct($name = null)
@@ -12,23 +13,13 @@ class CategoryForm extends \Zend\Form\Form
         parent::__construct('category');
 
         $this->add([
-            'name' => 'id',
-            'type' => 'hidden'
-        ]);
-        $this->add([
             'name' => 'categoryName',
             'type' => 'text',
             'options' => [
-                'label' => 'CategoryName'
+                'label' => 'Category name'
             ]
         ]);
-        $this->add([
-            'name' => 'content',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Content'
-            ]
-        ]);
+
         $this->add([
             'name' => 'submit',
             'type' => 'Submit',
@@ -39,7 +30,7 @@ class CategoryForm extends \Zend\Form\Form
         ]);
         $inputFilter = new InputFilter();
         $inputFilter->add([
-            'name' => 'category',
+            'name' => 'categoryName',
             'required' => true,
             'filters' => [
                 ['name' => 'StripTags'],
