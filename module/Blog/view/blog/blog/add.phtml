@@ -1,0 +1,10 @@
+<?php
+
+$title = 'Add new post';
+$this->headTitle($title);
+?>
+    <h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+/** @var \Blog\Form\BlogForm $form */
+
+echo $this->form($form);

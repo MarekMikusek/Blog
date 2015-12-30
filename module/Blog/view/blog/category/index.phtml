@@ -1,0 +1,33 @@
+<?php
+
+$title = 'Manage categories';
+$this->headTitle($title);
+?>
+
+<h1>
+    <?= $this->escapeHtml($title);
+    ?>
+</h1>
+<p>
+    <a href="<?= $this->url('category', ['action' => 'add']) ?>" class="btn btn-info">Add new category</a>
+</p>
+<p>
+    <a href="<?= $this->url('blog', ['action' => 'index']) ?>" class="btn btn-info">Go back to main page</a>
+</p>
+<table class="table">
+    <tr>
+        <th>Category name</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach ($categories as $category) : ?>
+        <tr>
+            <td><?= $this->escapeHtml($category->categoryName); ?></td>
+            <td>
+                <a href="<?= $this->url('category', ['action' => 'edit', 'id' => $category->id]) ?>">Edit</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('category', ['action' => 'delete', 'id' => $category->id]) ?>">Delete</a>
+            </td>
+        </tr>
+
+    <?php endforeach; ?>

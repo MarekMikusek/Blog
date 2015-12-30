@@ -1,0 +1,27 @@
+<?php
+
+$title = 'Delete comment';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<p>
+    Are you sure yot want to delete comment?
+    '<?= $this->escapeHtml($comment->content) ?>'
+</p>
+<?php
+$url = $this->url('comment', [
+    'action' => 'delete',
+    'id' => $comment->id
+]);
+?>
+<form action="<?= $url; ?>">
+    <div>
+        <input type="hidden" name="id" value="<?= (int)$comment->id ?>"/>
+        <input type="submit" name="del" value="Yes">
+        <input type="submit" name="del" value="No">
+    </div>
+</form>
+
+

@@ -1,0 +1,13 @@
+<?php
+
+$title = 'Show comments';
+$this->headTitle($title);
+
+?>
+    <h1>
+        <?= escapeHtml($title) ?>
+    </h1>
+<p>
+    <a href="<?= url('blog',['action'=>'index']); ?>" class="btn btn-info">Go to main page</a>
+</p>
+<?php
