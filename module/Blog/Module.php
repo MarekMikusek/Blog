@@ -1,8 +1,8 @@
 <?php
 namespace Blog;
 
-use Blog\Form\BlogForm;
-use Blog\Model\Blog;
+use Blog\Form\PostForm;
+use Blog\Model\Post;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
@@ -29,18 +29,17 @@ class Module implements FormElementProviderInterface
     {
         return [
             'factories' => [
-                'Blog\Form\Blog' => function ($sm) {
+                'Blog\Form\Post' => function ($sm) {
                     $sl = $sm->getServiceLocator();
                     $objectManager = $sl->get('Doctrine\ORM\EntityManager');
 
-                    $form = new BlogForm();
+                    $form = new PostForm();
                     $form->setHydrator(new DoctrineHydrator($objectManager))
-                        ->setObject(new Blog());
+                        ->setObject(new Post());
                     return $form;
                 }
             ]
         ];
     }
-
 
 }

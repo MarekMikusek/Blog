@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Blog\Model\Comment;
 
 /**
- * Class Blog
+ * Class Post
  * @package Blog\Model
  * @ORM\Entity
  */
-class Blog
+class Post
 {
 
     /**
@@ -41,6 +41,11 @@ class Blog
      *  @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
      */
     public $comments;
+
+    /**
+     *
+     */
+    public $creationDate;
 
     public function __construct()
     {

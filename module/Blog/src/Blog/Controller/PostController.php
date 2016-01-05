@@ -2,26 +2,26 @@
 
 namespace Blog\Controller;
 
-use Blog\Form\BlogForm;
-use Blog\Model\Blog;
+use Blog\Form\PostForm;
+use Blog\Model\Post;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
 
-class BlogController extends AbstractActionController
+class PostController extends AbstractActionController
 {
 
     public function indexAction()
     {
         return new ViewModel([
-            'blogs' => $this->getEntityManager()->getRepository('Blog\Model\Blog')->findAll()
+            'posts' => $this->getEntityManager()->getRepository('Blog\Model\Post')->findAll()
         ]);
     }
 
     public function createForm()
     {
         $sl = $this->getServiceLocator();
-        $form = $sl->get('FormElementManager')->get('\Blog\Form\Blog');
+        $form = $sl->get('FormElementManager')->get('Blog\Form\Post');
         return $form;
 
 //        $form = new BlogForm();
@@ -29,6 +29,27 @@ class BlogController extends AbstractActionController
 //            ->setObject(new Blog());
 //        return $form;
 
+    }
+
+    public function showAction()
+    {
+        $id = (int)$this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('mainpage');
+        }
+
+        try {
+            $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($id);
+            $comments = $this->getEntityManager()->getRepository('Blog\Model\Comment')->findBy(['post' => $id]);
+        } catch (\Exception $ex) {
+            $this->redirect()->toRoute('mainpage', [
+                'action' => 'index'
+            ]);
+        }
+        return [
+            'post' => $post,
+            'comments' => $comments,
+        ];
     }
 
     public function addAction()
@@ -42,7 +63,7 @@ class BlogController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getEntityManager()->persist($form->getData());
                 $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('blog');
+                return $this->redirect()->toRoute('post');
             }
         }
         return array('form' => $form);
@@ -52,19 +73,20 @@ class BlogController extends AbstractActionController
     {
         $id = (int)$this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('blog', [
+            return $this->redirect()->toRoute('post', [
                 'action' => 'add'
             ]);
         }
         try {
-            $blog = $this->getEntityManager()->getRepository('Blog\Model\Blog')->find($id);
+            $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($id);
         } catch (\Exception $ex) {
-            $this->redirect()->toRoute('blog', [
+
+            $this->redirect()->toRoute('post', [
                 'action' => 'index'
             ]);
         }
         $form = $this->createForm();
-        $form->bind($blog);
+        $form->bind($post);
         $form->get('submit')->setAttribute('value', 'Save');
 
         $request = $this->getRequest();
@@ -73,29 +95,29 @@ class BlogController extends AbstractActionController
 
             if ($form->isValid()) {
                 $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('blog');
+                return $this->redirect()->toRoute('post');
             }
         }
-        return ['form'=>$form];
+        return ['form' => $form];
     }
 
     public function deleteAction()
     {
         $id = (int)$this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('blog');
+            return $this->redirect()->toRoute('post');
         }
         $request = $this->getRequest();
-        $blog = $this->getEntityManager()->getRepository('Blog\Model\Blog')->find($id);
+        $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($id);
         if ($request->isPost()) {
             $del = $request->getPost('del', 'No');
             if ($del == 'Yes') {
-                $this->getEntityManager()->remove($blog);
+                $this->getEntityManager()->remove($post);
                 $this->getEntityManager()->flush();
             }
-            return $this->redirect()->toRoute('blog');
+            return $this->redirect()->toRoute('post');
         }
-        return ['blog'=>$blog];
+        return ['post' => $post];
     }
 
     public function getEntityManager()

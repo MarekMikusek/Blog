@@ -49,8 +49,8 @@ msgstr "Acompanhe o Desenvolvimento"
 
 #: ../view/application/index/index.phtml:11
 #, php-format
-msgid "Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!"
-msgstr "Zend Framework 2 está sob desenvolvimento ativo. Se vocês está interessado em acompanhar o desenvolvimento do ZF2, tem um portal ZF2 especial no site oficial do Zend Framework que possui links para ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, dentre outros. Este é um excelente material para se manter atualizado com os últimos desenvolvimentos!"
+msgid "Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev post%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!"
+msgstr "Zend Framework 2 está sob desenvolvimento ativo. Se vocês está interessado em acompanhar o desenvolvimento do ZF2, tem um portal ZF2 especial no site oficial do Zend Framework que possui links para ZF2 %swiki%s, %sdev post%s, %sissue tracker%s, dentre outros. Este é um excelente material para se manter atualizado com os últimos desenvolvimentos!"
 
 #: ../view/application/index/index.phtml:12
 msgid "ZF2 Development Portal"

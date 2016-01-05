@@ -25,9 +25,10 @@ class CommentForm extends Form
         ]);
 
         $this->add([
-            'name'=>'blog_id',
+            'name'=>'post',
             'type'=>'hidden'
         ]);
+
         $this->add([
             'name' => 'submit',
             'type' => 'Submit',

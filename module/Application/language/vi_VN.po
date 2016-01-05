@@ -47,8 +47,8 @@ msgstr "Theo dõi Quá trình phát triển"
 
 #: ../view/application/index/index.phtml:11
 #, php-format
-msgid "Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!"
-msgstr "Zend Framework 2 đang trong quá trình phát triển năng động. Nếu bạn quan tâm đến việc theo dõi quá trình phát triển của ZF2, có cổng thông tin đặc biệt danh cho ZF2 trên trang chính thức của website Zend Framework - nơi sẽ cung cấp đường dẫn tới %swiki%s, %sdev blog%s, %sissue tracker%s của ZF2, và hơn nhiều thứ khác nữa. Đó là nguồn tài nguyên tuyệt vời để nắm bắt các thông tin mới nhất trong quá trình phát triển!"
+msgid "Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev post%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!"
+msgstr "Zend Framework 2 đang trong quá trình phát triển năng động. Nếu bạn quan tâm đến việc theo dõi quá trình phát triển của ZF2, có cổng thông tin đặc biệt danh cho ZF2 trên trang chính thức của website Zend Framework - nơi sẽ cung cấp đường dẫn tới %swiki%s, %sdev post%s, %sissue tracker%s của ZF2, và hơn nhiều thứ khác nữa. Đó là nguồn tài nguyên tuyệt vời để nắm bắt các thông tin mới nhất trong quá trình phát triển!"
 
 #: ../view/application/index/index.phtml:12
 msgid "ZF2 Development Portal"

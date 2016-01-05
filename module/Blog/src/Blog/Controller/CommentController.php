@@ -5,6 +5,7 @@ namespace Blog\Controller;
 use Blog\Form\CommentForm;
 use Blog\Model\Comment;
 use Doctrine\ORM\EntityManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
@@ -15,7 +16,7 @@ class CommentController extends AbstractActionController
     public function createForm()
     {
         $form = new CommentForm();
-        $form->setHydrator(new ClassMethods())
+        $form->setHydrator(new DoctrineObject($this->getEntityManager()))
             ->setObject(new Comment());
         return $form;
     }
@@ -32,6 +33,8 @@ class CommentController extends AbstractActionController
         $form = $this->createForm();
         $form->get('submit')->setValue('Add');
 
+        $post = (int) $this->params()->fromRoute('id', 0);
+        $form->get('post')->setValue($post);
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -39,7 +42,7 @@ class CommentController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getEntityManager()->persist($form->getData());
                 $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('blog');
+                return $this->redirect()->toRoute('post',['action'=>'show','id'=>$post]);
             }
         }
         return array('form' => $form);
@@ -56,7 +59,7 @@ class CommentController extends AbstractActionController
         try {
             $album = $this->getEntityManager()->getRepository('Blog\Model\Comment')->find($id);
         } catch (\Exception $ex) {
-            return $this->redirect()->toRoute('blog', [
+            return $this->redirect()->toRoute('post', [
                 'action' => 'index'
             ]);
         }
@@ -84,7 +87,7 @@ class CommentController extends AbstractActionController
     {
         $id = (int)$this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('blog');
+            return $this->redirect()->toRoute('post');
         }
 
         $request = $this->getRequest();
@@ -96,7 +99,7 @@ class CommentController extends AbstractActionController
                 $this->getEntityManager()->remove($comment);
                 $this->getEntityManager()->flush($comment);
             }
-            return $this->redirect()->toRoute('blog');
+            return $this->redirect()->toRoute('post');
         }
         return [
             'comment' => $comment

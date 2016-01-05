@@ -3,7 +3,7 @@ namespace Blog\Model;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Blog\Model\Blog;
+use Blog\Model\Post;
 
 /**
  * Class Album
@@ -25,10 +25,10 @@ class Comment
     public $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Blog", inversedBy="comments")
-     * @ORM\JoinColumn(name="blog_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    public $blog;
+    public $post;
 
     /**
      *
@@ -63,17 +63,17 @@ class Comment
     /**
      * @return mixed
      */
-    public function getBlog()
+    public function getPost()
     {
-        return $this->blog;
+        return $this->post;
     }
 
     /**
-     * @param mixed $blog
+     * @param mixed $post
      */
-    public function setBlog($blog)
+    public function setPost($post)
     {
-        $this->blog = $blog;
+        $this->post = $post;
     }
 
 

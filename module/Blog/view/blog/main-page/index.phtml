@@ -1,0 +1,26 @@
+<?php
+
+$title = 'Blog main page';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Content</th>
+    </tr>
+    <?php foreach ($posts as $post) : ?>
+
+        <tr>
+            <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                    <?php echo $post->title; ?>
+                </a></td>
+            <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                    <?php echo substr($post->content, 10); ?>
+                </a></td>
+
+        </tr>
+
+    <?php endforeach; ?>
+</table>

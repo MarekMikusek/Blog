@@ -1,0 +1,32 @@
+<?php
+$title = 'Show post';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    <a href="<?= $this->url('mainpage') ?>" class="btn btn-info">Back to main page</a>
+</p>
+
+<div class="panel panel-default" id="title">
+    <div class="panel-heading"><h3><?= $this->escapeHtml($post->title) ?></h3></div>
+    <div class="panel-body"><?= $this->escapeHtml($post->content) ?></div>
+    <div class="panel-body">
+        <h3>
+            Comments
+        </h3>
+        <div>
+            <?php foreach ($comments as $comment) : ?>
+                <div class="col-lg-offset-1">
+                    <?php echo $comment->content ?>
+                </div>
+            <?php endforeach; ?>
+            <div>
+                <a href="<?= $this->url('comment',['action'=>'add','id'=>$post->getId()])?>" class="btn btn-info">
+                    Add comment</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

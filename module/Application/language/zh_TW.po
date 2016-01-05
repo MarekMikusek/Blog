@@ -57,11 +57,11 @@ msgid ""
 "Zend Framework 2 is under active development. If you are interested in "
 "following the development of ZF2, there is a special ZF2 portal on the "
 "official Zend Framework website which provides links to the ZF2 %swiki%s, "
-"%sdev blog%s, %sissue tracker%s, and much more. This is a great resource for "
+"%sdev post%s, %sissue tracker%s, and much more. This is a great resource for "
 "staying up to date with the latest developments!"
 msgstr ""
 "Zend Framework 2正在開發中。如果您有興趣關注ZF2的開發，Zend Framework的官方網"
-"站有一個專門的ZF2入口，從這個入口可以進入ZF2的%swiki%s, %sdev blog%s, "
+"站有一個專門的ZF2入口，從這個入口可以進入ZF2的%swiki%s, %sdev post%s, "
 "%sissue tracker%s等。這些是關注我們最新開發的好資源！"
 
 #: ../view/application/index/index.phtml:12

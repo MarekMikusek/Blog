@@ -3,23 +3,24 @@ return array(
 
     'controllers' => [
         'invokables' => [
-            'Blog\Controller\Blog' => 'Blog\Controller\BlogController',
+            'Blog\Controller\Post' => 'Blog\Controller\PostController',
             'Blog\Controller\Category' => 'Blog\Controller\CategoryController',
             'Blog\Controller\Comment' => 'Blog\Controller\CommentController',
+            'Blog\Controller\MainPage' => 'Blog\Controller\MainPageController',
         ],
     ],
     'router' => [
         'routes' => [
-            'blog' => [
+            'post' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/blog[/:action][/:id]',
+                    'route' => '/post[/:action][/:id]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller' => 'Blog\Controller\Blog',
+                        'controller' => 'Blog\Controller\Post',
                         'action' => 'index',
                     ],
                 ],
@@ -52,11 +53,24 @@ return array(
                     ],
                 ],
             ],
+            'mainpage' => [
+                'type' => 'segment',
+                'options' => [
+                    'route' => '/mainpage/[page/:page]',
+                    'constraints' => [
+                        'page' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => 'Blog\Controller\MainPage',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'view_manager' => [
         'template_path_stack' => [
-            'blog' => __DIR__ . '/../view',
+            'post' => __DIR__ . '/../view',
         ],
     ],
 
@@ -67,7 +81,7 @@ return array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/Blog/Model',
+                    __DIR__ . '/../src/Blog/Model',
                 ),
             ),
 

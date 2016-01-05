@@ -7,13 +7,13 @@ use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
 
-class BlogForm extends Form implements ObjectManagerAwareInterface
+class PostForm extends Form implements ObjectManagerAwareInterface
 {
     protected $objectManager;
 
     public function __construct($name = null)
     {
-        parent::__construct('blog');
+        parent::__construct('post');
     }
 
     public function init()
@@ -37,6 +37,10 @@ class BlogForm extends Form implements ObjectManagerAwareInterface
             'options' => [
                 'label' => 'Content'
             ]
+        ]);
+        $this->add([
+            'name'=>'creationDate',
+            'type'=>'hidden'
         ]);
 
         $this->add(
