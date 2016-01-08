@@ -49,6 +49,7 @@ class PostController extends AbstractActionController
         return [
             'post' => $post,
             'comments' => $comments,
+            'hasAuthentication'=> $this->zfcUserAuthentication()->hasIdentity(),
         ];
     }
 

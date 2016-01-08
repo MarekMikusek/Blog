@@ -2,7 +2,9 @@
 namespace Blog;
 
 use Blog\Form\PostForm;
+use Blog\Form\UserForm;
 use Blog\Model\Post;
+use Blog\Model\User;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
@@ -37,9 +39,29 @@ class Module implements FormElementProviderInterface
                     $form->setHydrator(new DoctrineHydrator($objectManager))
                         ->setObject(new Post());
                     return $form;
+                },
+                'Blog\Form\User' => function ($sm) {
+                    $sl = $sm->getServiceLocator();
+                    $objectManager = $sl->get('Doctrine\ORM\EntityManager');
+
+                    $form = new UserForm();
+                    $form->setHydrator(new DoctrineHydrator($objectManager))
+                        ->setObject(new User());
+                    return $form;
                 }
             ]
         ];
     }
 
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
+                    // If you are using DoctrineORMModule:
+                    return $serviceManager->get('doctrine.authenticationservice.orm_default');
+                }
+            )
+        );
+    }
 }

@@ -4,19 +4,32 @@ namespace Blog\Controller;
 
 use Blog\Form\PostForm;
 use Blog\Model\Post;
+use DoctrineModule\Paginator\Adapter\Selectable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
+use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineModule\Paginator\Adapter\Collection as CollectionAdapter;
+use Zend\Paginator\Paginator;
 
 class MainPageController extends AbstractActionController
 {
 
     public function indexAction()
     {
-        return new ViewModel([
-            'posts' => $this->getEntityManager()->getRepository('Blog\Model\Post')
-                ->findBy([])
-        ]);
+        $posts = $this->getEntityManager()->getRepository('Blog\Model\Post')->findAll();
+        $doctrineCollection = new ArrayCollection($posts);
+
+        $adapter = new CollectionAdapter($doctrineCollection);
+
+        $paginator = new Paginator($adapter);
+        $paginator->setCurrentPageNumber(1)
+            ->setItemCountPerPage(5);
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('posts', $paginator->getCurrentItems());
+        $viewModel->setVariable('hasAuthentication', $this->zfcUserAuthentication()->hasIdentity());
+        return $viewModel;
     }
 
     public function createForm()

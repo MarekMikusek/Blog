@@ -10,17 +10,34 @@ $this->headTitle($title);
         <th>Title</th>
         <th>Content</th>
     </tr>
-    <?php foreach ($posts as $post) : ?>
+    <?php
+    if (!$hasAuthentication) {
+        ?>
+        <p>
+            <?= $this->zfcUserLoginWidget() ?>
+
+        </p>
+        <?php
+    } else {
+        ?>
+            <a href="<?= $this->url('zfcuser/logout') ?>" class="btn btn-info">Logout</a>
+        <?php
+    };
+    foreach ($posts as $post) : ?>
 
         <tr>
-            <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
-                    <?php echo $post->title; ?>
-                </a></td>
-            <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
-                    <?php echo substr($post->content, 10); ?>
-                </a></td>
-
-        </tr>
-
-    <?php endforeach; ?>
+        <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                <?php echo $post->title; ?>
+            </a></td>
+        <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                <?php echo substr($post->content, 10); ?>
+            </a></td>
+        <?php
+        if ($hasAuthentication) {
+            ?>
+            <td><a href="<?php echo $this->url('comment', ['action' => 'add', 'id' => $post->id]); ?>"
+                   class="btn btn-info">Add comment </a></td>
+            </tr>
+        <?php }
+    endforeach; ?>
 </table>

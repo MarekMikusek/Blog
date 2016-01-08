@@ -20,11 +20,15 @@ $this->headTitle($title);
                 <div class="col-lg-offset-1">
                     <?php echo $comment->content ?>
                 </div>
-            <?php endforeach; ?>
+            <?php endforeach;
+            if ($hasAuthentication){
+
+            ?>
             <div>
                 <a href="<?= $this->url('comment',['action'=>'add','id'=>$post->getId()])?>" class="btn btn-info">
                     Add comment</a>
             </div>
+            <?php } ?>
         </div>
 
     </div>

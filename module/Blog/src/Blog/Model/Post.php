@@ -38,7 +38,7 @@ class Post
     public $category;
 
     /**
-     *  @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
      */
     public $comments;
 

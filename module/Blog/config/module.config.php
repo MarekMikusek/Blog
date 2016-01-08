@@ -7,6 +7,7 @@ return array(
             'Blog\Controller\Category' => 'Blog\Controller\CategoryController',
             'Blog\Controller\Comment' => 'Blog\Controller\CommentController',
             'Blog\Controller\MainPage' => 'Blog\Controller\MainPageController',
+            'Blog\Controller\User' => 'Blog\Controller\UserController',
         ],
     ],
     'router' => [
@@ -56,7 +57,7 @@ return array(
             'mainpage' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/mainpage/[page/:page]',
+                    'route' => '/mainpage[/:page]',
                     'constraints' => [
                         'page' => '[0-9]*',
                     ],
@@ -71,6 +72,7 @@ return array(
     'view_manager' => [
         'template_path_stack' => [
             'post' => __DIR__ . '/../view',
+            'zfc-user' => __DIR__.'/../view',
         ],
     ],
 
@@ -93,6 +95,6 @@ return array(
                     'Blog\Model' => 'my_annotation_driver'
                 )
             )
-        )
+        ),
     )
 );
