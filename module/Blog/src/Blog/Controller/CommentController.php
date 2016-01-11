@@ -35,12 +35,17 @@ class CommentController extends AbstractActionController
 
         $post = (int) $this->params()->fromRoute('id', 0);
         $form->get('post')->setValue($post);
+        $form->get('user_id')->setValue($this->zfcUserAuthentication()->getIdentity()->getId());
         $request = $this->getRequest();
 
         if ($request->isPost()) {
             $form->setData($request->getPost());
+
             if ($form->isValid()) {
-                $this->getEntityManager()->persist($form->getData());
+                /** @var Comment $comment */
+                $comment = $form->getData();
+                $comment->setUser($this->zfcUserAuthentication()->getIdentity());
+                $this->getEntityManager()->persist($comment);
                 $this->getEntityManager()->flush();
                 return $this->redirect()->toRoute('post',['action'=>'show','id'=>$post]);
             }

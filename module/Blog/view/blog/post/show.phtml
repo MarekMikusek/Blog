@@ -10,24 +10,59 @@ $this->headTitle($title);
 
 <div class="panel panel-default" id="title">
     <div class="panel-heading"><h3><?= $this->escapeHtml($post->title) ?></h3></div>
-    <div class="panel-body"><?= $this->escapeHtml($post->content) ?></div>
+    <div class="panel-body"><?= $this->escapeHtml($post->content);
+        if ($post->user->getId() == $user_id) {
+            ?>
+            <a href="<?= $this->url('post', ['action' => 'delete', 'id' => $post->getId()]) ?>" class="btn btn-danger">
+                Delete post</a>  <?php
+        } ?></div>
     <div class="panel-body">
         <h3>
             Comments
         </h3>
         <div>
-            <?php foreach ($comments as $comment) : ?>
-                <div class="col-lg-offset-1">
-                    <?php echo $comment->content ?>
-                </div>
-            <?php endforeach;
-            if ($hasAuthentication){
+            <table class="table">
+                <tr>
+                    <td>Content</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <?php foreach ($comments as $comment) : ?>
+                    <tr>
+                        <td>
+                            <div class="col-lg-offset-1">
+                                <?php echo $comment->content ?>
+                            </div>
+                        </td>
+                        <td>
+                            <?php
+                            if ($comment->getUser()->getId() == $user_id) {
+                            ?>
+                            <a href="<?= $this->url('comment', ['action' => 'delete', 'id' => $comment->getid()]) ?>"
+                               class="btn btn-xs btn-info">Delete comment</a></td>
+                        <td><a href="<?= $this->url('comment', ['action' => 'edit', 'id' => $comment->getid()])
+                            ?>"
+                               class="btn btn-xs btn-info">Edit comment</a></td>
+                        <?php
+                        } else {
+                            echo "<td>&nbsp</td>";
+                            echo "<td>&nbsp</td>";
+                        }
+                        ?>
+                        </td>
+                    </tr>
+                <?php endforeach;
+                ?>
+            </table>
+            <?php
+            if ($hasAuthentication) {
 
-            ?>
-            <div>
-                <a href="<?= $this->url('comment',['action'=>'add','id'=>$post->getId()])?>" class="btn btn-info">
-                    Add comment</a>
-            </div>
+                ?>
+                <div>
+                    <a href="<?= $this->url('comment', ['action' => 'add', 'id' => $post->getId()]) ?>"
+                       class="btn btn-info">
+                        Add comment</a>
+                </div>
             <?php } ?>
         </div>
 

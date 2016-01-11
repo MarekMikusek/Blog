@@ -101,7 +101,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'login_after_registration' => true,
+    'login_after_registration' => true,
 
     /**
      * Registration Form Captcha
@@ -134,7 +134,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'use_redirect_parameter_if_present' => true,
+    'use_redirect_parameter_if_present' => true,
 
     /**
      * Sets the view template for the user login widget
@@ -156,7 +156,7 @@ $settings = array(
      *                  If callback used, it will receive the identity as the param
      *
      */
-    //'login_redirect_route' => 'zfcuser',
+    'login_redirect_route' => 'mainpage',
 
     /**
      * Logout Redirect Route
@@ -166,7 +166,7 @@ $settings = array(
      * Default value: 'zfcuser/login'
      * Accepted values: A valid route name within your application
      */
-    //'logout_redirect_route' => 'zfcuser/login',
+    'logout_redirect_route' => 'mainpage',
 
     /**
      * Password Security

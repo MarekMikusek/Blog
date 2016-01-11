@@ -13,6 +13,8 @@ return array(
         'DoctrineORMModule',
         'Blog',
         'ZfcUser',
+        'ZfcBase',
+        'ZfcUserDoctrineORM',
     ),
     'module_listener_options' => array(
         'module_paths' => array(

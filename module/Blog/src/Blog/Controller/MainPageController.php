@@ -25,10 +25,14 @@ class MainPageController extends AbstractActionController
         $paginator = new Paginator($adapter);
         $paginator->setCurrentPageNumber(1)
             ->setItemCountPerPage(5);
-
+        $paginator->setDefaultScrollingStyle('Sliding');
+        $hasAuthentication = $this->zfcUserAuthentication()->hasIdentity();
+        $hasAuthentication? $user_id = $this->zfcUserAuthentication()->getIdentity()->getId() : $user_id=0;
         $viewModel = new ViewModel();
         $viewModel->setVariable('posts', $paginator->getCurrentItems());
-        $viewModel->setVariable('hasAuthentication', $this->zfcUserAuthentication()->hasIdentity());
+        $viewModel->setVariable('paginator', $paginator);
+        $viewModel->setVariable('hasAuthentication', $hasAuthentication);
+        $viewModel->setVariable('user_id', $user_id);
         return $viewModel;
     }
 

@@ -62,6 +62,7 @@ return array(
                         'page' => '[0-9]*',
                     ],
                     'defaults' => [
+                        'page'=>1,
                         'controller' => 'Blog\Controller\MainPage',
                         'action' => 'index',
                     ],

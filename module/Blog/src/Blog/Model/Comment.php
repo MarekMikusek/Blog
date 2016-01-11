@@ -36,8 +36,15 @@ class Comment
     protected $inputFilter;
 
     /**
-     * @return mixed
+     *
      */
+    protected $creationDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ZfcUser\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id" )
+     */
+    protected $user;
 
     public function getId()
     {
@@ -75,6 +82,39 @@ class Comment
     {
         $this->post = $post;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @param mixed $creationDate
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+    }
+
 
 
 //

@@ -50,6 +50,7 @@ class PostController extends AbstractActionController
             'post' => $post,
             'comments' => $comments,
             'hasAuthentication'=> $this->zfcUserAuthentication()->hasIdentity(),
+            'user_id'=> $this->zfcUserAuthentication()->getIdentity()->getId(),
         ];
     }
 
@@ -62,7 +63,9 @@ class PostController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getEntityManager()->persist($form->getData());
+                $post = $form->getData();
+                $post->setUser($this->zfcUserAuthentication()->getIdentity());
+                $this->getEntityManager()->persist($post);
                 $this->getEntityManager()->flush();
                 return $this->redirect()->toRoute('post');
             }

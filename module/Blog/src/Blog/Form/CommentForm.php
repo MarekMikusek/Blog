@@ -30,6 +30,16 @@ class CommentForm extends Form
         ]);
 
         $this->add([
+            'name' => 'creationDate',
+            'type' => 'hidden'
+        ]);
+
+        $this->add([
+            'name' => 'user_id',
+            'type' => 'hidden',
+        ]);
+
+        $this->add([
             'name' => 'submit',
             'type' => 'Submit',
             'attributes' => [

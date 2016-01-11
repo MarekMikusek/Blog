@@ -3,41 +3,62 @@
 $title = 'Blog main page';
 $this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
 
-<table class="table">
-    <tr>
-        <th>Title</th>
-        <th>Content</th>
-    </tr>
+<?php
+if (!$hasAuthentication) {
+    ?>
+    <p>
+        <?= $this->zfcUserLoginWidget() ?>
+    </p>
     <?php
-    if (!$hasAuthentication) {
-        ?>
-        <p>
-            <?= $this->zfcUserLoginWidget() ?>
-
-        </p>
-        <?php
-    } else {
-        ?>
-            <a href="<?= $this->url('zfcuser/logout') ?>" class="btn btn-info">Logout</a>
-        <?php
-    };
-    foreach ($posts as $post) : ?>
-
+} else {
+    ?>
+    <a href="<?= $this->url('zfcuser/logout') ?>" class="btn btn-info">Logout</a>
+    <?php
+};
+?>
+    <table class="table">
         <tr>
-        <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
-                <?php echo $post->title; ?>
-            </a></td>
-        <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
-                <?php echo substr($post->content, 10); ?>
-            </a></td>
+            <th>Title</th>
+            <th>Content</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
         <?php
-        if ($hasAuthentication) {
-            ?>
-            <td><a href="<?php echo $this->url('comment', ['action' => 'add', 'id' => $post->id]); ?>"
-                   class="btn btn-info">Add comment </a></td>
+        foreach ($posts as $post) : ?>
+
+            <tr>
+                <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                        <?php echo $post->title; ?>
+                    </a></td>
+                <td><a href="<?php echo $this->url('post', ['action' => 'show', 'id' => $post->id]); ?>">
+                        <?php echo substr($post->content, 10); ?>
+                    </a></td>
+                <?php
+                if ($hasAuthentication) {
+                    ?>
+                    <td><a href="<?php echo $this->url('comment', ['action' => 'add', 'id' => $post->id]); ?>"
+                           class="btn btn-info">Add comment </a></td>
+                <?php }
+                if ($post->user->getId() == $user_id) { ?>
+                    <td>
+                        <a href="<?= $this->url('post', ['action' => 'edit', 'id' => $post->id]) ?>"
+                           class="btn btn-info">Edit</a>
+                    </td>
+                    <td>
+                        <a href="<?= $this->url('post', ['action' => 'delete', 'id' => $post->id]) ?>"
+                           class="btn btn-info">Delete</a>
+                    </td>
+                <?php } else { ?>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                <?php }
+                ?>
+
             </tr>
-        <?php }
-    endforeach; ?>
-</table>
+            <?php
+        endforeach; ?>
+    </table>
+<?php

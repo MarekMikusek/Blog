@@ -13,7 +13,8 @@
         "doctrine/doctrine-orm-module": "^0.9.2",
         "doctrine/doctrine-module": "0.10.*",
         "zendframework/zftool": "dev-master",
-        "zf-commons/zfc-user": "dev-master"
+        "zf-commons/zfc-user": "1.*",
+        "zf-commons/zfc-user-doctrine-orm": "^1.0"
     },
     "autoload": {
         "psr-0": { "Album": "module/Album/src/" }

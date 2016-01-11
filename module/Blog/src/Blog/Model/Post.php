@@ -43,9 +43,10 @@ class Post
     public $comments;
 
     /**
-     *
+     * @ORM\ManyToOne(targetEntity="ZfcUser\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id" )
      */
-    public $creationDate;
+    public $user;
 
     public function __construct()
     {
@@ -107,6 +108,24 @@ class Post
     {
         $this->category = $category;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
 
 
 }

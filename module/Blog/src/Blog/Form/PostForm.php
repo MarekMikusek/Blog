@@ -38,9 +38,15 @@ class PostForm extends Form implements ObjectManagerAwareInterface
                 'label' => 'Content'
             ]
         ]);
+
         $this->add([
-            'name'=>'creationDate',
-            'type'=>'hidden'
+            'name' => 'creationDate',
+            'type' => 'hidden'
+        ]);
+
+        $this->add([
+            'name' => 'user_id',
+            'type' => 'hidden',
         ]);
 
         $this->add(
