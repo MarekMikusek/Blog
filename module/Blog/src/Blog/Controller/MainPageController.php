@@ -2,12 +2,6 @@
 
 namespace Blog\Controller;
 
-use Blog\Form\PostForm;
-use Blog\Model\Post;
-use DoctrineModule\Paginator\Adapter\Selectable;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\Hydrator\ClassMethods;
-use Zend\View\Model\ViewModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use DoctrineModule\Paginator\Adapter\Collection as CollectionAdapter;
 use Zend\Paginator\Paginator;
@@ -28,28 +22,28 @@ class MainPageController extends AbstractBlogController
         $paginator->setCurrentPageNumber($page)
             ->setItemCountPerPage(5);
         $paginator->setDefaultScrollingStyle('Sliding');
-        $hasAuthentication = $this->zfcUserAuthentication()->hasIdentity();
-        $hasAuthentication ? $user_id = $this->zfcUserAuthentication()->getIdentity()->getId() : $user_id = 0;
+        $isAuthenticated = $this->zfcUserAuthentication()->hasIdentity();
+        $isAuthenticated ? $user_id = $this->zfcUserAuthentication()->getIdentity()->getId() : $user_id = 0;
 
-        $viewModel = new ViewModel();
-        $viewModel->setVariable('posts', $paginator->getCurrentItems());
-        $viewModel->setVariable('paginator', $paginator);
-        $viewModel->setVariable('hasAuthentication', $hasAuthentication);
-        $viewModel->setVariable('user_id', $user_id);
-        return $viewModel;
+        return [
+            'posts' => $paginator->getCurrentItems(),
+            'paginator' => $paginator,
+            'isAuthenticated' => $isAuthenticated,
+            'user_id' => $user_id,
+        ];
 
     }
 
-    public function createForm()
-    {
-        $sl = $this->getServiceLocator();
-        $form = $sl->get('FormElementManager')->get('\Blog\Form\Blog');
-        return $form;
-    }
-
-    public function getEntityManager()
-    {
-        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    }
+//    public function createForm()
+//    {
+//        $sl = $this->getServiceLocator();
+//        $form = $sl->get('FormElementManager')->get('\Blog\Form\Blog');
+//        return $form;
+//    }
+//
+//    public function getEntityManager()
+//    {
+//        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+//    }
 }
 

@@ -5,10 +5,9 @@ namespace Blog\Controller;
 use Blog\Form\PostForm;
 use Blog\Model\Post;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
 
-class PostController extends AbstractActionController
+class PostController extends AbstractBlogController
 {
 
     public function indexAction()
@@ -18,18 +17,12 @@ class PostController extends AbstractActionController
         ]);
     }
 
-    public function createForm()
-    {
-        $sl = $this->getServiceLocator();
-        $form = $sl->get('FormElementManager')->get('Blog\Form\Post');
-        return $form;
-
-//        $form = new BlogForm();
-//        $form->setHydrator(new ClassMethods())
-//            ->setObject(new Blog());
+//    public function createForm()
+//    {
+//        $sl = $this->getServiceLocator();
+//        $form = $sl->get('FormElementManager')->get('Blog\Form\Post');
 //        return $form;
-
-    }
+//    }
 
     public function showAction()
     {
@@ -56,7 +49,7 @@ class PostController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->createForm();
+        $form = $this->createForm('Blog\Form\Post');
         $form->get('submit')->setValue('add');
 
         $request = $this->getRequest();
@@ -87,7 +80,7 @@ class PostController extends AbstractActionController
 
             $this->redirect()->toRoute('mainpage');
         }
-        $form = $this->createForm();
+        $form = $this->createForm('Blog\Form\Post');
         $form->bind($post);
         $form->get('submit')->setAttribute('value', 'Save');
 
@@ -101,7 +94,7 @@ class PostController extends AbstractActionController
             }
         }
         return [
-            'id'=>$id,
+            'id' => $id,
             'form' => $form];
     }
 
@@ -129,9 +122,5 @@ class PostController extends AbstractActionController
         return ['post' => $post];
     }
 
-    public function getEntityManager()
-    {
-        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    }
 }
 

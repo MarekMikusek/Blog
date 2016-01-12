@@ -6,7 +6,7 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?></h1>
 
 <?php
-if (!$hasAuthentication) {
+if (!$isAuthenticated) {
     ?>
     <p>
         <?= $this->zfcUserLoginWidget() ?>
@@ -38,7 +38,7 @@ if (!$hasAuthentication) {
                         <?php echo substr($post->content, 10); ?>
                     </a></td>
                 <?php
-                if ($hasAuthentication) {
+                if ($isAuthenticated) {
                     ?>
                     <td><a href="<?php echo $this->url('comment', ['action' => 'add', 'id' => $post->id]); ?>"
                            class="btn btn-info">Add comment </a></td>

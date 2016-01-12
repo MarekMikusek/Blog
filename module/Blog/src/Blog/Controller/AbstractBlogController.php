@@ -13,10 +13,19 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class AbstractBlogController extends AbstractActionController
 {
-    public function createForm(){
+    public function createForm($entity)
+    {
         $sl = $this->getServiceLocator();
-        $form=$sl->get('FormElementManager')->get();
+        $form = $sl->get('FormElementManager')->get($entity);
         return $form;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
     }
 
 }

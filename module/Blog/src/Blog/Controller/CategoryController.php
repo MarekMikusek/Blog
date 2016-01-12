@@ -8,23 +8,11 @@
 
 namespace Blog\Controller;
 
-use Blog\Form\CategoryForm;
-use Blog\Model\Category;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
 
 
-class CategoryController extends AbstractActionController
+class CategoryController extends AbstractBlogController
 {
-
-    public function createForm()
-    {
-        $form = new CategoryForm();
-        $form->setHydrator(new ClassMethods())
-            ->setObject(new Category());
-        return $form;
-    }
 
     public function indexAction()
     {
@@ -35,7 +23,7 @@ class CategoryController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->createForm();
+        $form = $this->createForm('Blog\Model\Category');
         $form->get('submit')->setValue('Add');
         $request = $this->getRequest();
 
@@ -47,7 +35,6 @@ class CategoryController extends AbstractActionController
                 return $this->redirect()->toRoute('category');
             }
         }
-
         return ['form' => $form];
     }
 
@@ -64,7 +51,7 @@ class CategoryController extends AbstractActionController
                 'action' => 'index'
             ]);
         }
-        $form = $this->createForm();
+        $form = $this->createForm('Blog\Model\Category');
         $form->bind($category);
         $form->get('submit')->setAttribute('value', 'Save');
         $request = $this->getRequest();
@@ -93,11 +80,7 @@ class CategoryController extends AbstractActionController
                 $this->getEntityManager()->flush();
             }
         }
-        return ['category'=>$category];
+        return ['category' => $category];
     }
 
-    public function getEntityManager()
-    {
-        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    }
 }

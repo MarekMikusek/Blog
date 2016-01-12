@@ -6,20 +6,10 @@ use Blog\Form\CommentForm;
 use Blog\Model\Comment;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\View\Model\ViewModel;
 
-class CommentController extends AbstractActionController
+class CommentController extends AbstractBlogController
 {
-
-    public function createForm()
-    {
-        $form = new CommentForm();
-        $form->setHydrator(new DoctrineObject($this->getEntityManager()))
-            ->setObject(new Comment());
-        return $form;
-    }
 
     public function indexAction()
     {
@@ -30,7 +20,7 @@ class CommentController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->createForm();
+        $form = $this->createForm('Blog\Model\Comment');
         $form->get('submit')->setValue('Add');
 
         $postId = (int) $this->params()->fromRoute('id', 0);
@@ -108,23 +98,4 @@ class CommentController extends AbstractActionController
         ];
     }
 
-//    /**
-//     * @return \Blog\Model\CommentTable
-//     */
-//    public function getCommentTable()
-//    {
-//        if (!$this->albumTable) {
-//            $sm = $this->getServiceLocator();
-//            $this->commentTable = $sm->get('Blog\Model\CommentTable');
-//        }
-//        return $this->commentTable;
-//    }
-
-    /**
-     * @return EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    }
 }
