@@ -15,6 +15,7 @@ if (!$hasAuthentication) {
 } else {
     ?>
     <a href="<?= $this->url('zfcuser/logout') ?>" class="btn btn-info">Logout</a>
+    <a href="<?= $this->url('category',['action'=>'add']) ?>" class="btn btn-info">Add category</a>
     <?php
 };
 ?>
@@ -61,4 +62,8 @@ if (!$hasAuthentication) {
             <?php
         endforeach; ?>
     </table>
+
 <?php
+echo $this->paginationControl($this->paginator,
+    'Sliding',
+    'pagination.phtml', array('route' => 'mainpage')); ?>

@@ -36,7 +36,7 @@ class Post extends \Blog\Model\Post implements \Doctrine\ORM\Proxy\Proxy
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = array('title' => NULL, 'content' => NULL, 'category' => NULL, 'comments' => NULL);
+    public static $lazyPropertiesDefaults = array('title' => NULL, 'content' => NULL, 'category' => NULL, 'comments' => NULL, 'user' => NULL);
 
 
 
@@ -46,7 +46,7 @@ class Post extends \Blog\Model\Post implements \Doctrine\ORM\Proxy\Proxy
      */
     public function __construct($initializer = null, $cloner = null)
     {
-        unset($this->title, $this->content, $this->category, $this->comments);
+        unset($this->title, $this->content, $this->category, $this->comments, $this->user);
 
         $this->__initializer__ = $initializer;
         $this->__cloner__      = $cloner;
@@ -108,10 +108,10 @@ class Post extends \Blog\Model\Post implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'title', 'content', 'category', 'comments', 'creationDate');
+            return array('__isInitialized__', 'id', 'title', 'content', 'category', 'comments', 'user');
         }
 
-        return array('__isInitialized__', 'id', 'creationDate');
+        return array('__isInitialized__', 'id');
     }
 
     /**
@@ -133,7 +133,7 @@ class Post extends \Blog\Model\Post implements \Doctrine\ORM\Proxy\Proxy
                 }
             };
 
-            unset($this->title, $this->content, $this->category, $this->comments);
+            unset($this->title, $this->content, $this->category, $this->comments, $this->user);
         }
     }
 
@@ -297,6 +297,28 @@ class Post extends \Blog\Model\Post implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategory', array($category));
 
         return parent::setCategory($category);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', array());
+
+        return parent::getUser();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUser($user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', array($user));
+
+        return parent::setUser($user);
     }
 
 }

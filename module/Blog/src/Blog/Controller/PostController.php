@@ -49,8 +49,8 @@ class PostController extends AbstractActionController
         return [
             'post' => $post,
             'comments' => $comments,
-            'hasAuthentication'=> $this->zfcUserAuthentication()->hasIdentity(),
-            'user_id'=> $this->zfcUserAuthentication()->getIdentity()->getId(),
+            'hasAuthentication' => $this->zfcUserAuthentication()->hasIdentity(),
+            'user_id' => $this->zfcUserAuthentication()->getIdentity()->getId(),
         ];
     }
 
@@ -85,9 +85,7 @@ class PostController extends AbstractActionController
             $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($id);
         } catch (\Exception $ex) {
 
-            $this->redirect()->toRoute('post', [
-                'action' => 'index'
-            ]);
+            $this->redirect()->toRoute('mainpage');
         }
         $form = $this->createForm();
         $form->bind($post);
@@ -102,7 +100,9 @@ class PostController extends AbstractActionController
                 return $this->redirect()->toRoute('post');
             }
         }
-        return ['form' => $form];
+        return [
+            'id'=>$id,
+            'form' => $form];
     }
 
     public function deleteAction()
@@ -116,10 +116,15 @@ class PostController extends AbstractActionController
         if ($request->isPost()) {
             $del = $request->getPost('del', 'No');
             if ($del == 'Yes') {
+                $comments = $this->getEntityManager()->getRepository('Blog\Model\Comment')->findBy(['post' => $id]);
+
+                foreach ($comments as $comment) {
+                    $this->getEntityManager()->remove($comment);
+                }
                 $this->getEntityManager()->remove($post);
                 $this->getEntityManager()->flush();
             }
-            return $this->redirect()->toRoute('post');
+            return $this->redirect()->toRoute('mainpage');
         }
         return ['post' => $post];
     }

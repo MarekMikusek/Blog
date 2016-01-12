@@ -33,9 +33,9 @@ class CommentController extends AbstractActionController
         $form = $this->createForm();
         $form->get('submit')->setValue('Add');
 
-        $post = (int) $this->params()->fromRoute('id', 0);
-        $form->get('post')->setValue($post);
-        $form->get('user_id')->setValue($this->zfcUserAuthentication()->getIdentity()->getId());
+        $postId = (int) $this->params()->fromRoute('id', 0);
+        $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($postId);
+
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -45,9 +45,10 @@ class CommentController extends AbstractActionController
                 /** @var Comment $comment */
                 $comment = $form->getData();
                 $comment->setUser($this->zfcUserAuthentication()->getIdentity());
+                $comment->setPost($post);
                 $this->getEntityManager()->persist($comment);
                 $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('post',['action'=>'show','id'=>$post]);
+                return $this->redirect()->toRoute('post',['action'=>'show','id'=>$postId]);
             }
         }
         return array('form' => $form);
@@ -57,33 +58,29 @@ class CommentController extends AbstractActionController
     {
         $id = (int)$this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('album', [
+            return $this->redirect()->toRoute('comment', [
                 'action' => 'add',
             ]);
         }
         try {
-            $album = $this->getEntityManager()->getRepository('Blog\Model\Comment')->find($id);
+            $comment = $this->getEntityManager()->getRepository('Blog\Model\Comment')->find($id);
         } catch (\Exception $ex) {
-            return $this->redirect()->toRoute('post', [
-                'action' => 'index'
-            ]);
+            return $this->redirect()->toRoute('mainpage');
         }
         $form = $this->createForm();
-        $form->bind($album);
+        $form->bind($comment);
         $form->get('submit')->setAttribute('value', 'Save');
+
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-
             $form->setData($request->getPost());
-
             if ($form->isValid()) {
                 $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('album');
+                return $this->redirect()->toRoute('mainpage');
             }
         }
         return [
-            'id' => $id,
             'form' => $form,
         ];
     }

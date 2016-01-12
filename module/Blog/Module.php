@@ -48,6 +48,24 @@ class Module implements FormElementProviderInterface
                     $form->setHydrator(new DoctrineHydrator($objectManager))
                         ->setObject(new User());
                     return $form;
+                },
+                'Blog\Form\Comment' => function ($sm) {
+                    $sl = $sm->getServiceLocator();
+                    $objectManager = $sl->get('Doctrine\ORM\EntityManager');
+
+                    $form = new PostForm();
+                    $form->setHydrator(new DoctrineHydrator($objectManager))
+                        ->setObject(new Post());
+                    return $form;
+                },
+                'Blog\Form\Category' => function ($sm) {
+                    $sl = $sm->getServiceLocator();
+                    $objectManager = $sl->get('Doctrine\ORM\EntityManager');
+
+                    $form = new PostForm();
+                    $form->setHydrator(new DoctrineHydrator($objectManager))
+                        ->setObject(new Post());
+                    return $form;
                 }
             ]
         ];
