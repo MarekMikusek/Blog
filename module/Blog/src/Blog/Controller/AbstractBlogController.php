@@ -9,6 +9,7 @@
 namespace Blog\Controller;
 
 
+use Doctrine\ORM\EntityManager;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class AbstractBlogController extends AbstractActionController

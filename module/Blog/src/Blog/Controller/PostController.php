@@ -6,6 +6,7 @@ use Blog\Form\PostForm;
 use Blog\Model\Post;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class PostController extends AbstractBlogController
 {
@@ -16,13 +17,6 @@ class PostController extends AbstractBlogController
             'posts' => $this->getEntityManager()->getRepository('Blog\Model\Post')->findAll()
         ]);
     }
-
-//    public function createForm()
-//    {
-//        $sl = $this->getServiceLocator();
-//        $form = $sl->get('FormElementManager')->get('Blog\Form\Post');
-//        return $form;
-//    }
 
     public function showAction()
     {
@@ -58,9 +52,10 @@ class PostController extends AbstractBlogController
             if ($form->isValid()) {
                 $post = $form->getData();
                 $post->setUser($this->zfcUserAuthentication()->getIdentity());
-                $this->getEntityManager()->persist($post);
-                $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('post');
+                $blogService = $this->getServiceLocator()->get('BlogService');
+                $blogService->insertData($post);
+                $this->flashMessenger()->addSuccessMessage('Post added!');
+                return $this->redirect()->toRoute('mainpage',[]);
             }
         }
         return array('form' => $form);
@@ -110,12 +105,11 @@ class PostController extends AbstractBlogController
             $del = $request->getPost('del', 'No');
             if ($del == 'Yes') {
                 $comments = $this->getEntityManager()->getRepository('Blog\Model\Comment')->findBy(['post' => $id]);
-
+                $blogService = $this->getServiceLocator()->get('BlogService');
                 foreach ($comments as $comment) {
-                    $this->getEntityManager()->remove($comment);
+                    $blogService->deleteData($comment);
                 }
-                $this->getEntityManager()->remove($post);
-                $this->getEntityManager()->flush();
+                $blogService->deleteData($post);
             }
             return $this->redirect()->toRoute('mainpage');
         }

@@ -2,10 +2,7 @@
 
 namespace Blog\Controller;
 
-use Blog\Form\CommentForm;
 use Blog\Model\Comment;
-use Doctrine\ORM\EntityManager;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\View\Model\ViewModel;
 
 class CommentController extends AbstractBlogController
@@ -20,10 +17,10 @@ class CommentController extends AbstractBlogController
 
     public function addAction()
     {
-        $form = $this->createForm('Blog\Model\Comment');
+        $form = $this->createForm('Blog\Form\Comment');
         $form->get('submit')->setValue('Add');
 
-        $postId = (int) $this->params()->fromRoute('id', 0);
+        $postId = (int)$this->params()->fromRoute('id', 0);
         $post = $this->getEntityManager()->getRepository('Blog\Model\Post')->find($postId);
 
         $request = $this->getRequest();
@@ -36,9 +33,9 @@ class CommentController extends AbstractBlogController
                 $comment = $form->getData();
                 $comment->setUser($this->zfcUserAuthentication()->getIdentity());
                 $comment->setPost($post);
-                $this->getEntityManager()->persist($comment);
-                $this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('post',['action'=>'show','id'=>$postId]);
+                $blogService = $this->getServiceLocator()->get('BlogService');
+                $blogService->insertData($comment);
+                return $this->redirect()->toRoute('post', ['action' => 'show', 'id' => $postId]);
             }
         }
         return array('form' => $form);
@@ -87,9 +84,10 @@ class CommentController extends AbstractBlogController
         if ($request->isPost()) {
             $del = $request->getPost('del', 'No');
             if ($del == 'Yes') {
-                //  $id = (int)$request->getPost('id');
-                $this->getEntityManager()->remove($comment);
-                $this->getEntityManager()->flush($comment);
+                $blogService = $this->getServiceLocator()->get('BlogService');
+                $blogService->deleteData($comment);
+//                $this->getEntityManager()->remove($comment);
+//                $this->getEntityManager()->flush($comment);
             }
             return $this->redirect()->toRoute('post');
         }

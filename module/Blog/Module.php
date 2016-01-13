@@ -5,9 +5,10 @@ use Blog\Form\PostForm;
 use Blog\Form\UserForm;
 use Blog\Model\Post;
 use Blog\Model\User;
+use Blog\Service\BlogService;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class Module implements FormElementProviderInterface
 {
@@ -66,7 +67,7 @@ class Module implements FormElementProviderInterface
                     $form->setHydrator(new DoctrineHydrator($objectManager))
                         ->setObject(new Post());
                     return $form;
-                }
+                },
             ]
         ];
     }
@@ -78,8 +79,12 @@ class Module implements FormElementProviderInterface
                 'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
                     // If you are using DoctrineORMModule:
                     return $serviceManager->get('doctrine.authenticationservice.orm_default');
-                }
-            )
+                },
+
+            ),
+            'invokables' => [
+                'BlogService'=>'Blog\Service\BlogService'
+            ]
         );
     }
 }

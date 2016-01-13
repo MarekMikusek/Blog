@@ -3,11 +3,10 @@ namespace Blog\Model;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Blog\Model\Post;
 
 /**
- * Class Album
- * @package Album\Model
+ * Class Comment
+ * @package Blog\Model
  * @ORM\Entity
  */
 class Comment
@@ -114,16 +113,5 @@ class Comment
     {
         $this->creationDate = $creationDate;
     }
-
-
-
-//
-//    public function exchangeArray($data)
-//    {
-//        $this->id = (!empty($data['id']) ? $data['id'] : null);
-//        $this->artist = (!empty($data['artist']) ? $data['artist'] : null);
-//        $this->title = (!empty($data['title']) ? $data['title'] : null);
-//    }
-
 
 }

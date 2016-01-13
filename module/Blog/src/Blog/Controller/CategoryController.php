@@ -30,8 +30,9 @@ class CategoryController extends AbstractBlogController
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getEntityManager()->persist($form->getData());
-                $this->getEntityManager()->flush();
+                $category = $form->getData();
+                $blogService = $this->getServiceLocator()->get('BlogService');
+                $blogService->insertData($category);
                 return $this->redirect()->toRoute('category');
             }
         }
@@ -75,9 +76,8 @@ class CategoryController extends AbstractBlogController
         if ($request->isPost) {
             $del = $request->get('del', 'No');
             if ('del' == "Yes") {
-                $id = (int)$request->getPost('id');
-                $this->getEntityManager()->remove($category);
-                $this->getEntityManager()->flush();
+                $blogService = $this->getServiceLocator()->get('BlogService');
+                $blogService->deleteData($category);
             }
         }
         return ['category' => $category];

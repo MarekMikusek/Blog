@@ -15,6 +15,7 @@ if (!$isAuthenticated) {
 } else {
     ?>
     <a href="<?= $this->url('zfcuser/logout') ?>" class="btn btn-info">Logout</a>
+    <a href="<?= $this->url('post',['action'=>'add']) ?>" class="btn btn-info">Add post</a>
     <a href="<?= $this->url('category',['action'=>'add']) ?>" class="btn btn-info">Add category</a>
     <?php
 };
