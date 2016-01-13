@@ -35,6 +35,7 @@ class CommentController extends AbstractBlogController
                 $comment->setPost($post);
                 $blogService = $this->getServiceLocator()->get('BlogService');
                 $blogService->insertData($comment);
+                $this->flashMessenger()->addMessage('Comment added!');
                 return $this->redirect()->toRoute('post', ['action' => 'show', 'id' => $postId]);
             }
         }
@@ -86,8 +87,7 @@ class CommentController extends AbstractBlogController
             if ($del == 'Yes') {
                 $blogService = $this->getServiceLocator()->get('BlogService');
                 $blogService->deleteData($comment);
-//                $this->getEntityManager()->remove($comment);
-//                $this->getEntityManager()->flush($comment);
+                $this->flashMessenger()->addMessage('Comment deleted!');
             }
             return $this->redirect()->toRoute('post');
         }

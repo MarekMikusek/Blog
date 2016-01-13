@@ -54,8 +54,8 @@ class PostController extends AbstractBlogController
                 $post->setUser($this->zfcUserAuthentication()->getIdentity());
                 $blogService = $this->getServiceLocator()->get('BlogService');
                 $blogService->insertData($post);
-                $this->flashMessenger()->addSuccessMessage('Post added!');
-                return $this->redirect()->toRoute('mainpage',[]);
+                $this->flashMessenger()->addMessage('Post added!');
+                return $this->redirect()->toRoute('mainpage');
             }
         }
         return array('form' => $form);
@@ -110,6 +110,7 @@ class PostController extends AbstractBlogController
                     $blogService->deleteData($comment);
                 }
                 $blogService->deleteData($post);
+                $this->flashMessenger()->addMessage('Post deleted!');
             }
             return $this->redirect()->toRoute('mainpage');
         }

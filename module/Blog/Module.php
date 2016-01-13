@@ -1,8 +1,12 @@
 <?php
 namespace Blog;
 
+use Blog\Form\CommentForm;
+use Blog\Model\Comment;
 use Blog\Form\PostForm;
 use Blog\Form\UserForm;
+use Blog\Model\Category;
+use Blog\Form\CategoryForm;
 use Blog\Model\Post;
 use Blog\Model\User;
 use Blog\Service\BlogService;
@@ -54,18 +58,18 @@ class Module implements FormElementProviderInterface
                     $sl = $sm->getServiceLocator();
                     $objectManager = $sl->get('Doctrine\ORM\EntityManager');
 
-                    $form = new PostForm();
+                    $form = new CommentForm();
                     $form->setHydrator(new DoctrineHydrator($objectManager))
-                        ->setObject(new Post());
+                        ->setObject(new Comment());
                     return $form;
                 },
                 'Blog\Form\Category' => function ($sm) {
                     $sl = $sm->getServiceLocator();
                     $objectManager = $sl->get('Doctrine\ORM\EntityManager');
 
-                    $form = new PostForm();
+                    $form = new CategoryForm();
                     $form->setHydrator(new DoctrineHydrator($objectManager))
-                        ->setObject(new Post());
+                        ->setObject(new Category());
                     return $form;
                 },
             ]
