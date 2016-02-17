@@ -83,9 +83,6 @@ class AlbumForm extends Form
                 ],
             ],
         ]);
-        $inputFilter-add([
-            'name'=>''
-        ]);
 
         $this->setInputFilter($inputFilter);
     }

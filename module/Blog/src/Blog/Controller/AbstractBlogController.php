@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Konto
- * Date: 2016-01-12
- * Time: 10:45
- */
 
 namespace Blog\Controller;
 

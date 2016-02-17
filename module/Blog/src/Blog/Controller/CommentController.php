@@ -59,7 +59,6 @@ class CommentController extends AbstractBlogController
         $form->bind($comment);
         $form->get('submit')->setAttribute('value', 'Save');
 
-
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
@@ -95,5 +94,7 @@ class CommentController extends AbstractBlogController
             'comment' => $comment
         ];
     }
+
+
 
 }
